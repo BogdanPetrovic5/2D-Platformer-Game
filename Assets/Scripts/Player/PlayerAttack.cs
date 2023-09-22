@@ -30,8 +30,10 @@ public class PlayerAttack : MonoBehaviour
         animator.SetTrigger("attack");
         if (Skeleton.GetComponent<EnemyAttack>().isTouching)
         {
-            SkeletonHealth.GetComponent<SkeletonHealthBar>();
+           
+            SkeletonHealth.GetComponent<SkeletonHealthBar>().takeDamage();
         }
         cooldown = 0;
+
     }
 }

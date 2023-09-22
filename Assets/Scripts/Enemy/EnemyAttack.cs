@@ -6,7 +6,6 @@ public class EnemyAttack : MonoBehaviour
 {
     [SerializeField] private float enemyDamage;
     private Animator animator;
-    [SerializeField] public string animationToCheck = "EnemyAttack"; // Replace with the name of the animation you want to check
     [SerializeField] public float progressThreshold;
     GameObject Player;
     private bool animEnded = false;
@@ -18,18 +17,15 @@ public class EnemyAttack : MonoBehaviour
         animator = GetComponent<Animator>();
         Player = GameObject.Find("Player");
     }
-    void Update()
-    {
-          
-        
-    }
-  
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
         {
             animator.SetTrigger("attack");
             isTouching = true;
+            
+            
             StartCoroutine(ExecuteAfterDelay());
         }
         
@@ -45,15 +41,16 @@ public class EnemyAttack : MonoBehaviour
     {
         animator.SetTrigger("die");
     }
-    private void takeDamage(Collider2D collision)
+    public void hurt()
     {
-       
+        animator.SetTrigger("hurt");
     }
     private IEnumerator ExecuteAfterDelay()
     {
         yield return new WaitForSeconds(0.8f);
         if (isTouching)
         {
+            
             Player.GetComponent<Health>().takeDamage(enemyDamage);
         }
        

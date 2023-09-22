@@ -34,16 +34,13 @@ public class SkeletonHealthBar : MonoBehaviour
 
 
     }
-    private void checkForDeath()
-    {
-        
-    }
     private IEnumerator ExecuteAfterDelay()
     {
+        print("DDD");
         yield return new WaitForSeconds(0.5f);
         Transform lastChild = transform.GetChild(transform.childCount - healthCounter);
         lastChild.GetComponent<SpriteRenderer>().enabled = false;
-        checkForDeath();
+        Enemy.GetComponent<EnemyAttack>().hurt();
         if (healthCounter == 3)
         {
             Enemy.GetComponent<EnemyAttack>().die();
