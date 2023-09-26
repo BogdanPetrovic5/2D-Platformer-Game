@@ -13,6 +13,7 @@ public class NewBehaviourScript : MonoBehaviour
     [SerializeField] private LayerMask wallLayer;
     private BoxCollider2D boxCollider;
     private float horizontalInput;
+    private int doubleJump = 0;
     [SerializeField]private int SPEED;
 
     
@@ -40,10 +41,23 @@ public class NewBehaviourScript : MonoBehaviour
         {
             transform.localScale = new Vector3(-2, 2, 2);
         }
+        if (isGrounded())
+        {
+            doubleJump = 0;
+            isJumping = false;
+        }
         if (Input.GetKey(KeyCode.Space) && isGrounded()){
           
             Jump();
+
+            if (isJumping == true && Input.GetKey(KeyCode.Space) && doubleJump <= 2)
+            {
+                Jump();
+                
+            }
+
         }
+        
         animator.SetBool("run", horizontalInput != 0);
         animator.SetBool("grounded", isGrounded());
 
@@ -58,6 +72,8 @@ public class NewBehaviourScript : MonoBehaviour
     {
         body.velocity = new Vector2(body.velocity.x, SPEED);
         animator.SetTrigger("jump");
+        doubleJump += 1;
+        isJumping = true;
      
     }
 
@@ -72,7 +88,7 @@ public class NewBehaviourScript : MonoBehaviour
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
         
-       
+        
         return raycastHit.collider != null;
     }
     private bool isWall()
