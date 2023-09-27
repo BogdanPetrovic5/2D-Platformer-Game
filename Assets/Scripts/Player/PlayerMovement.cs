@@ -83,12 +83,16 @@ public class NewBehaviourScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     { 
+        if(collision.collider.tag == "Stairs")
+        {
+
+            body.velocity = new Vector2(horizontalInput * SPEED, horizontalInput * SPEED);
+        }
     }
+    
     private bool isGrounded()
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
-        
-        
         return raycastHit.collider != null;
     }
     private bool isWall()
